@@ -1,6 +1,5 @@
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Login from './Auth/login';
 import Tasks from './components/Tasks';
 import Create from './Tasks/Create';
 
@@ -9,7 +8,6 @@ const App = () => {
 
   return (
     <>
-      <Navbar />
       
       <div className="bg-gray-900 text-white py-20 px-10 text-center">
         <div className="bg-gray-700 py-8 rounded-lg">

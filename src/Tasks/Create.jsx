@@ -4,6 +4,7 @@ import { useState } from "react";
 const Create = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [user_id, setUser] = useState(8);
   const [status, setStatus] = useState('');
 
   const handleClick = (e) => {
@@ -12,20 +13,23 @@ const Create = () => {
     const data = {
       'title': title,
       'description': description,
+      'userId':user_id,
       'status': status
     };
 
     const token = 'Bearer 9|2p44jSSTNQXVjwHdRBBzUCMqZzlAIQmCzDdCrtzh11a8798c'; 
+
     const headers = {
       Authorization: token
     };
 
     axios.post('http://127.0.0.1:8000/api/v1/tasks', data, { headers })
       .then((response) => {
-        console.log(response);
-        setTitle('');
-        setDescription('');
-        setStatus('');
+        console.log(response.data);
+        // setTitle('');
+        // setDescription('');
+        // setUser(8);
+        // setStatus('');
       })
       .catch((error) => {
         console.error(error);
@@ -59,6 +63,19 @@ const Create = () => {
             type="text" 
             placeholder="Description" 
             name="description"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+            user_id
+          </label>
+          <input 
+            value={user_id}
+            onChange={(e) => setUser(e.target.value)}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type="text" 
+            placeholder="Description" 
+            name="user_id"
           />
         </div>
         <div className="mb-4">

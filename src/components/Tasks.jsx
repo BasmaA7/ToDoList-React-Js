@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import getTodos from "../utils/getTodos";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
 
   useEffect(() => {
-    const headers = {
-      Authorization: 'Bearer 9|2p44jSSTNQXVjwHdRBBzUCMqZzlAIQmCzDdCrtzh11a8798c'
-    };
 
-    axios.get('http://127.0.0.1:8000/api/v1/tasks', { headers })
-      .then((res) => {
-        setTasks(res.data.data);
+    getTodos()
+      .then(data => {
+        setTasks(data.data)
+        console.log('Todos:', data);
       })
-      .catch(console.log);
+      .catch(error => {
+        console.error('Error:', error.message);
+      });
+
   }, []);
 
   const handleUpdate = (taskId) => {
@@ -26,6 +28,10 @@ const Tasks = () => {
     e.preventDefault();
     const updatedTitle = e.target.title.value;
     const updatedDescription = e.target.description.value;
+    const updatedUser = e.target.userId.value;
+    const updatedStatus = e.target.status.value;
+
+
 
     const headers = {
       Authorization: 'Bearer 9|2p44jSSTNQXVjwHdRBBzUCMqZzlAIQmCzDdCrtzh11a8798c'
@@ -34,9 +40,15 @@ const Tasks = () => {
     axios.patch(`http://127.0.0.1:8000/api/v1/tasks/${taskId}`, {
       title: updatedTitle,
       description: updatedDescription,
+     userId: updatedUser,
+     status: updatedStatus,
+
     }, { headers })
       .then(() => {
-        setTasks(tasks.map(task => task.id === taskId ? { ...task, title: updatedTitle, description: updatedDescription } : task));
+        setTasks
+        (tasks.map(task => task.id === taskId ? { ...task, title: updatedTitle, description: updatedDescription,     userId: updatedUser,     status: updatedStatus,
+
+        } : task));
         setEditingTask(null);
       })
       .catch((error) => {
@@ -66,6 +78,8 @@ const Tasks = () => {
             <form onSubmit={(e) => handleEdit(e, task.id)} className="text-left">
               <input type="text" name="title" defaultValue={task.title} className="block w-full mb-2 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
               <textarea name="description" defaultValue={task.description} className="block w-full mb-2 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"></textarea>
+              <input type="text" name="userId" defaultValue={task.userId} className="block w-full mb-2 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
+              <input type="text" name="status" defaultValue={task.status} className="block w-full mb-2 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" />
               <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Save</button>
             </form>
           ) : (
