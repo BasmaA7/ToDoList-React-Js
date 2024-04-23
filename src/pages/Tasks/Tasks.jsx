@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import getTodos from "../utils/getTodos";
+import getTodos from "../../utils/getTodos";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([]);

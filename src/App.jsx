@@ -1,31 +1,24 @@
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Tasks from './components/Tasks';
-import Create from './Tasks/Create';
+// App.js
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import PrivateRoute from "./PrivateRoute"; // Your custom private route component
+import Login from "./Login"; // Your login component
+import Register from "./Register"; // Your register component
+import Tasks from "./Tasks"; // Your tasks component
+import Create from "./Create"; // Your create task component
 
-
-const App = () => {
-
+function App() {
   return (
-    <>
-      
-      <div className="bg-gray-900 text-white py-20 px-10 text-center">
-        <div className="bg-gray-700 py-8 rounded-lg">
-          <h1 className="text-4xl  bg-gray-700font-bold mb-4">Welcome to Taskify</h1>
-          <p className="text-lg mb-8">Organize your tasks efficiently with Taskify</p>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
-            Get Started
-          </button>
-        </div>
-      </div>
-      <Create />
-
-      <Tasks />
-      <Footer />
-     
-
-    </>
-  )
+    <Router>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <PrivateRoute path="/tasks" component={Tasks} />
+        <PrivateRoute path="/create" component={Create} />
+        <Route path="/" component={Login} />
+      </Switch>
+    </Router>
+  );
 }
 
 export default App;
